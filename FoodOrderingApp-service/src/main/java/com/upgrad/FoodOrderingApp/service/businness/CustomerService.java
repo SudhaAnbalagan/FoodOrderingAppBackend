@@ -144,6 +144,14 @@ public class CustomerService {
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public CustomerEntity updateCustomer(final CustomerEntity customerEntity) {
+        return customerDao.updateCustomer(customerEntity);
+    }
+
+
+
+
 
 
 
