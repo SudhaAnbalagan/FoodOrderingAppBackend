@@ -1,8 +1,7 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 
-import com.upgrad.FoodOrderingApp.api.model.SaveAddressRequest;
-import com.upgrad.FoodOrderingApp.api.model.SaveAddressResponse;
+import com.upgrad.FoodOrderingApp.api.model.*;
 import com.upgrad.FoodOrderingApp.service.businness.AddressService;
 import com.upgrad.FoodOrderingApp.service.businness.CustomerService;
 import com.upgrad.FoodOrderingApp.service.dao.CustomerAddressDao;
@@ -22,6 +21,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 @CrossOrigin
@@ -89,5 +91,42 @@ public class AddressController {
         return createdCustomerAddressEntity;
 
     }
+
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.GET,path = "/address/customer",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<AddressListResponse> getAllSavedAddress(@RequestHeader("authorization")final String authorization) throws AuthorizationFailedException{
+
+        //Access the accessToken from the request Header
+        String accessToken = authorization.split("Bearer ")[1];
+
+        //Calls customerService getCustomer Method to check the validity of the customer.this methods returns the customerEntity  to be get all address.
+        CustomerEntity customerEntity = customerService.getCustomer(accessToken);
+
+        //Calls getAllAddress method of addressService to get list of address
+        List<AddressEntity> addressEntities = addressService.getAllAddress(customerEntity);
+        Collections.reverse(addressEntities); //Reversing the list to show last saved as first.
+
+        //Creating list of  AddressList using the Model AddressList & this List will be added to AddressListResponse
+        List<AddressList> addressLists = new LinkedList<>();
+        //Looping in for each address in the addressEntities & then Created AddressList using the each address data and adds to addressLists.
+        addressEntities.forEach(addressEntity -> {
+            AddressListState addressListState = new AddressListState()
+                    .stateName(addressEntity.getStateEntityId().getStateName())
+                    .id(UUID.fromString(addressEntity.getStateEntityId().getUuid()));
+            AddressList addressList = new AddressList()
+                    .id(UUID.fromString(addressEntity.getUuid()))
+                    .city(addressEntity.getCity())
+                    .flatBuildingName(addressEntity.getFlatBuilNumber())
+                    .locality(addressEntity.getLocality())
+                    .pincode(addressEntity.getPincode())
+                    .state(addressListState);
+            addressLists.add(addressList);
+        });
+
+        //Creating the AddressListResponse by adding the addressLists.
+        AddressListResponse addressListResponse = new AddressListResponse().addresses(addressLists);
+        return new ResponseEntity<AddressListResponse>(addressListResponse,HttpStatus.OK);
+    }
+
 
 }

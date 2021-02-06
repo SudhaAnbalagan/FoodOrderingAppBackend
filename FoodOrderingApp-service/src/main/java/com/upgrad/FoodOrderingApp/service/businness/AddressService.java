@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,6 +78,22 @@ public class AddressService {
 
     }
 
+    public List<AddressEntity> getAllAddress(CustomerEntity customerEntity) {
+
+        //Creating List of AddressEntities.
+        List<AddressEntity> addressEntities = new LinkedList<>();
+
+        //Calls Method of customerAddressDao,getAllCustomerAddressByCustomer and returns AddressList.
+        List<CustomerAddressEntity> customerAddressEntities  = customerAddressDao.getAllCustomerAddressByCustomer(customerEntity);
+        if(customerAddressEntities != null) { //Checking if CustomerAddressEntity is null else extracting address and adding to the addressEntites list.
+            customerAddressEntities.forEach(customerAddressEntity -> {
+                addressEntities.add(customerAddressEntity.getAddressId());
+            });
+        }
+
+        return addressEntities;
+
+    }
 
 
 
