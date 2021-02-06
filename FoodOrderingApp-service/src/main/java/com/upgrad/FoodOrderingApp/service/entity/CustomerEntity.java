@@ -9,6 +9,11 @@ import java.io.Serializable;
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "customer", schema = "public",catalog = "restaurantdb")
+@NamedQueries(
+        {
+                @NamedQuery( name = "customerByContactNumber", query = "select c from CustomerEntity c where c.contactNumber=:contactNumber")
+        }
+)
 public class CustomerEntity implements Serializable {
 
   @Id

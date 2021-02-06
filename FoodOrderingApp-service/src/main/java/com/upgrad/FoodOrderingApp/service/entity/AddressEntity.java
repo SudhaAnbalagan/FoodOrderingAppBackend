@@ -70,7 +70,7 @@ public class AddressEntity implements Serializable {
 
   @Column(name = "active")
   @NotNull
-  private Integer active;
+  private Integer active =1;
 
 
   public Integer getId() {
