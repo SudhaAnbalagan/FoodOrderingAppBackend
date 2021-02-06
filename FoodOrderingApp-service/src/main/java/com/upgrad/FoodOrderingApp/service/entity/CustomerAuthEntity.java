@@ -7,12 +7,18 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "customer_auth", schema = "public",catalog = "restaurantdb")
-public class CustomerAuthEntity {
+@NamedQueries(
+        {
+                @NamedQuery( name = "customerAuthByToken", query = "select c from CustomerAuthEntity c where c.accessToken=:accessToken")
+        }
+)
+public class CustomerAuthEntity implements Serializable {
 
 
   @Id
