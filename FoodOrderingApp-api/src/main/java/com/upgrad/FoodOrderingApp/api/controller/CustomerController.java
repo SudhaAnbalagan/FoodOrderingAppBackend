@@ -142,7 +142,7 @@ public class CustomerController {
     @CrossOrigin
     @RequestMapping(
             method = RequestMethod.PUT,
-            path = "/customer",
+            path = "/",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UpdateCustomerResponse> update(
@@ -172,6 +172,43 @@ public class CustomerController {
 
         return new ResponseEntity<UpdateCustomerResponse>(updateCustomerResponse, HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            path = "/password",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UpdatePasswordResponse> changePassword(
+            @RequestHeader("authorization") final String authorization,
+            @RequestBody(required = true) final UpdatePasswordRequest updatePasswordRequest)
+            throws UpdateCustomerException, AuthorizationFailedException {
+
+        String oldPassword = updatePasswordRequest.getOldPassword();
+        String newPassword = updatePasswordRequest.getNewPassword();
+
+        if (oldPassword != null
+                && !oldPassword.isEmpty()
+                && newPassword != null
+                && !newPassword.isEmpty()) {
+            String[] authParts = authorization.split("Bearer ");
+            final String accessToken =  authParts[1];
+            CustomerEntity customerEntity = customerService.getCustomer(accessToken);
+
+            CustomerEntity updatedCustomerEntity =
+                    customerService.updateCustomerPassword(oldPassword, newPassword, customerEntity);
+
+            UpdatePasswordResponse updatePasswordResponse =
+                    new UpdatePasswordResponse()
+                            .id(updatedCustomerEntity.getUuid())
+                            .status("CUSTOMER PASSWORD UPDATED SUCCESSFULLY");
+
+            return new ResponseEntity<UpdatePasswordResponse>(updatePasswordResponse, HttpStatus.OK);
+        } else {
+            throw new UpdateCustomerException("UCR-003", "No field should be empty");
+        }
+    }
+
 
 
 
