@@ -10,6 +10,10 @@ import java.io.Serializable;
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "customer_address", schema = "public",catalog = "restaurantdb")
+@NamedQueries({
+        @NamedQuery(name = "getAllCustomerAddressByCustomer",query = "SELECT c from CustomerAddressEntity c where c.customerId = :customer_entity AND c.addressId.active = :active"),
+        @NamedQuery(name = "getCustomerAddressByAddress",query = "SELECT c from CustomerAddressEntity c where c.addressId = :address_entity")
+})
 public class CustomerAddressEntity implements Serializable {
 
 

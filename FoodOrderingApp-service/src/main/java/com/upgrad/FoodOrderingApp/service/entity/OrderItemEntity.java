@@ -10,6 +10,10 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "order_item")
+@NamedQueries({
+        @NamedQuery(name = "orderItemsByOrder", query = "SELECT x FROM OrderItemEntity x WHERE x.order = :order  ORDER BY x.item ASC")
+
+})
 public class OrderItemEntity {
 
 

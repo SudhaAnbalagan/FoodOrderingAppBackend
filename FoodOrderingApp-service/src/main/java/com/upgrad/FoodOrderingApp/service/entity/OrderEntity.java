@@ -4,10 +4,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.security.Timestamp;
+import java.util.Date;
 
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "orders", schema = "public",catalog = "restaurantdb")
+@NamedQueries({
+        @NamedQuery(name = "getOrdersByCouponId", query = "SELECT x FROM OrderEntity x WHERE x.coupon = :couponId"),
+        @NamedQuery(name = "getAllOrders", query = "SELECT x FROM OrderEntity x"),
+        @NamedQuery(name = "getOrdersByCustomers", query = "SELECT o FROM OrderEntity o WHERE o.customer = :customer ORDER BY o.date DESC"),
+        @NamedQuery(name = "getOrdersByAddress", query = "SELECT x FROM OrderEntity x WHERE x.address = :address")
+})
 public class OrderEntity {
 
   @Id
@@ -33,7 +40,7 @@ public class OrderEntity {
 
   @Column(name = "date")
   @NotNull
-  private Timestamp  date;
+  private Date date;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "payment_id")
@@ -116,11 +123,11 @@ public class OrderEntity {
   }
 
 
-  public Timestamp getDate() {
+  public Date getDate() {
     return date;
   }
 
-  public void setDate(Timestamp  date) {
+  public void setDate(Date  date) {
     this.date = date;
   }
 

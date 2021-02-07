@@ -15,6 +15,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "address", schema = "public",catalog = "restaurantdb")
+@NamedQueries({
+        @NamedQuery(name = "getAddressByUuid",query = "SELECT a FROM AddressEntity a WHERE a.uuid = :uuid"),
+})
 public class AddressEntity implements Serializable {
 
 
