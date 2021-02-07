@@ -9,6 +9,10 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("ALL")
 @Entity
 @Table(name = "payment")
+@NamedQueries({
+        @NamedQuery(name = "getAllPayments",query = "SELECT p FROM PaymentEntity p"),
+        @NamedQuery(name = "getPaymentByUUID",query = "SELECT p FROM PaymentEntity p WHERE p.uuid = :uuid")
+})
 public class PaymentEntity {
 
   @Id
