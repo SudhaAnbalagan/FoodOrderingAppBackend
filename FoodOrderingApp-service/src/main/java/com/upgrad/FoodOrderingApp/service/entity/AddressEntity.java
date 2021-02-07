@@ -41,7 +41,7 @@ public class AddressEntity implements Serializable {
   @Size(max = 200)
   private String uuid;
 
-  @Column(name = "faltBuilNumber")
+  @Column(name = "flatBuilNumber")
   @NotNull
   @Size(max = 255)
   private String flatBuilNumber;
