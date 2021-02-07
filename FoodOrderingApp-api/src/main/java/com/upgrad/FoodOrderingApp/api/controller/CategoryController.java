@@ -26,7 +26,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-    
+
     @CrossOrigin
     @RequestMapping(
             method = RequestMethod.GET,
