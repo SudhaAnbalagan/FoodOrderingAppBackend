@@ -21,9 +21,9 @@ public class AddressEntity implements Serializable {
   public AddressEntity(){
   }
 
-  public AddressEntity(String uuid, String flatBuilNo, String locality, String city, String pincode, StateEntity stateEntityId) {
+  public AddressEntity(String uuid, String flatBuilNumber, String locality, String city, String pincode, StateEntity stateEntityId) {
     this.uuid = uuid;
-    this.flatBuilNumber =flatBuilNo;
+    this.flatBuilNumber =flatBuilNumber;
     this.locality = locality;
     this.city = city;
     this.pincode = pincode;
@@ -61,7 +61,7 @@ public class AddressEntity implements Serializable {
   @Size(max = 30)
   private String pincode;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "stateId")
   @NotNull
   @OnDelete(action = OnDeleteAction.CASCADE)

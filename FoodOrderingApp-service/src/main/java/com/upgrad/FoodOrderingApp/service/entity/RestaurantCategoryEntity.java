@@ -8,6 +8,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "restaurant_category")
+@NamedQueries({
+
+        @NamedQuery(name = "getCategoriesByRestaurant",query = "SELECT r FROM RestaurantCategoryEntity r WHERE r.restaurantId= :restaurant ORDER BY r.categoryId.categoryName ASC "),
+        @NamedQuery(name = "getRestaurantByCategory",query = "SELECT r FROM RestaurantCategoryEntity r WHERE r.categoryId = :category ORDER BY r.restaurantId.customerRating DESC "),
+})
 public class RestaurantCategoryEntity {
 
   @Id

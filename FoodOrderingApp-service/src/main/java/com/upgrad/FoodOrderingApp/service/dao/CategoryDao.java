@@ -1,0 +1,17 @@
+package com.upgrad.FoodOrderingApp.service.dao;
+
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+@Repository
+@SuppressWarnings("all")
+public class CategoryDao {
+
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+}

@@ -9,6 +9,12 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "restaurant", schema = "public",catalog = "restaurantdb")
+@NamedQueries({
+
+        @NamedQuery(name = "restaurantsByRating",query = "SELECT r FROM RestaurantEntity r ORDER BY r.customerRating DESC"),
+        @NamedQuery(name = "getRestaurantByUuid",query = "SELECT r FROM RestaurantEntity r WHERE r.uuid = :uuid"),
+        @NamedQuery(name = "restaurantsByName",query = "SELECT r FROM  RestaurantEntity r WHERE LOWER(r.restaurantName) LIKE :restaurant_name_low"),
+})
 public class RestaurantEntity {
 
   @Id
@@ -32,15 +38,15 @@ public class RestaurantEntity {
 
   @Column(name = "customer_rating")
   @NotNull
-  private String customerRating;
+  private double customerRating;
 
   @Column(name = "average_price_for_two")
   @NotNull
-  private long averagePriceForTwo;
+  private Integer averagePriceForTwo;
 
   @Column(name = "number_of_customers_rated")
   @NotNull
-  private long numberOfCustomersRated;
+  private Integer numberOfCustomersRated;
 
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "address_id")
@@ -84,29 +90,29 @@ public class RestaurantEntity {
   }
 
 
-  public String getCustomerRating() {
+  public double getCustomerRating() {
     return customerRating;
   }
 
-  public void setCustomerRating(String customerRating) {
+  public void setCustomerRating(double customerRating) {
     this.customerRating = customerRating;
   }
 
 
-  public long getAveragePriceForTwo() {
+  public Integer getAveragePriceForTwo() {
     return averagePriceForTwo;
   }
 
-  public void setAveragePriceForTwo(long averagePriceForTwo) {
+  public void setAveragePriceForTwo(Integer averagePriceForTwo) {
     this.averagePriceForTwo = averagePriceForTwo;
   }
 
 
-  public long getNumberOfCustomersRated() {
+  public Integer getNumberOfCustomersRated() {
     return numberOfCustomersRated;
   }
 
-  public void setNumberOfCustomersRated(long numberOfCustomersRated) {
+  public void setNumberOfCustomersRated(Integer numberOfCustomersRated) {
     this.numberOfCustomersRated = numberOfCustomersRated;
   }
 
