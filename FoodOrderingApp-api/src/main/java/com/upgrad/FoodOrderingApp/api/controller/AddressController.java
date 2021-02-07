@@ -128,5 +128,34 @@ public class AddressController {
         return new ResponseEntity<AddressListResponse>(addressListResponse,HttpStatus.OK);
     }
 
+    /*  The method handles delete  Address  request.It takes the authorization and path variables address UUID
+& produces response in DeleteAddressResponse and returns UUID of deleted address and Successfull message .If error Return error code and error Message.
+*/
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.DELETE,path = "/address/{address_id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(@RequestHeader ("authorization") final String authorization,@PathVariable(value = "address_id")final String addressUuid)throws AuthorizationFailedException,AddressNotFoundException{
+
+        //Access the accessToken from the request Header
+        String accessToken = authorization.split("Bearer ")[1];
+
+        //Calls customerService getCustomer Method to check the validity of the customer.this methods returns the customerEntity of whose address be deleted.
+        CustomerEntity customerEntity = customerService.getCustomer(accessToken);
+
+        //Calls getAddressByUUID method of addressService to get the address by uuid
+        AddressEntity addressEntity = addressService.getAddressByUUID(addressUuid,customerEntity);
+
+        //Calls deleteAddress method of addressService to delete the address from DB
+        AddressEntity deletedAddressEntity = addressService.deleteAddress(addressEntity);
+
+        //Creating DeleteAddressResponse containing UUID of deleted address and Successful Message.
+        DeleteAddressResponse deleteAddressResponse = new DeleteAddressResponse()
+                .id(UUID.fromString(deletedAddressEntity.getUuid()))
+                .status("ADDRESS DELETED SUCCESSFULLY");
+
+        return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse,HttpStatus.OK);
+
+
+    }
+
 
 }
