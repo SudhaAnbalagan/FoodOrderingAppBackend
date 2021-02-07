@@ -1,5 +1,6 @@
 package com.upgrad.FoodOrderingApp.service.businness;
 
+import com.upgrad.FoodOrderingApp.service.dao.CategoryDao;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantCategoryDao;
 import com.upgrad.FoodOrderingApp.service.dao.RestaurantDao;
 import com.upgrad.FoodOrderingApp.service.entity.CategoryEntity;
@@ -22,6 +23,9 @@ public class CategoryService {
     @Autowired
     private RestaurantDao restaurantDao; //Handles all data related to the RestaurantEntity
 
+    @Autowired
+    private CategoryDao categoryDao;
+
     public List<CategoryEntity> getCategoriesByRestaurant(String restaurantUuid){
 
         //Calls getRestaurantByUuid of restaurantDao to get RestaurantEntity
@@ -35,6 +39,15 @@ public class CategoryService {
         restaurantCategoryEntities.forEach(restaurantCategoryEntity -> {
             categoryEntities.add(restaurantCategoryEntity.getCategoryId());
         });
+        return categoryEntities;
+    }
+
+    /* This method is to get All Categories Ordered By Name and returns list of CategoryEntity
+       If error throws exception with error code and error message.
+       */
+    public List<CategoryEntity> getAllCategoriesOrderedByName() {
+        //Calls getAllCategoriesOrderedByName of categoryDao to get list of CategoryEntity
+        List<CategoryEntity> categoryEntities = categoryDao.getAllCategoriesOrderedByName();
         return categoryEntities;
     }
 
