@@ -5,6 +5,10 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "category_item")
+@NamedQueries({
+
+        @NamedQuery(name = "getItemsByCategory",query = "SELECT c FROM CategoryItemEntity c WHERE c.categoryId = :category ORDER BY LOWER(c.itemId.itemName) ASC "),
+})
 public class CategoryItemEntity {
 
   @Id
