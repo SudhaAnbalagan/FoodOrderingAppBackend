@@ -77,4 +77,17 @@ If error throws exception with error code and error message.
         return restaurantEntities;
     }
 
+
+    public RestaurantEntity restaurantByUUID(String uuid) throws RestaurantNotFoundException {
+        if (uuid == null || uuid == "") { //Checking for restaurantUuid to be null or empty to throw exception.
+            throw new RestaurantNotFoundException("RNF-002", "Restaurant id field should not be empty");
+        }
+        RestaurantEntity restaurant = restaurantDao.restaurantByUUID(uuid);
+        if (restaurant == null) {
+            throw new RestaurantNotFoundException("RNF-001", "No restaurant by this id");
+        }
+        return restaurant;
+    }
+
+
 }
