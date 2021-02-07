@@ -143,6 +143,13 @@ public class AddressService {
     }
 
 
+    /*This method is to getAllStates in DB.
+     */
+    public List<StateEntity> getAllStates(){
+        //Calls getAllStates of stateDao to get all States.
+        List<StateEntity> stateEntities = stateDao.getAllStates();
+        return stateEntities;
+    }
 
 
 

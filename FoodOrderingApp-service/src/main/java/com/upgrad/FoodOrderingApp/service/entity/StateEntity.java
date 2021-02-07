@@ -6,6 +6,11 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "state", schema = "public",catalog = "restaurantdb")
+@NamedQueries({
+
+        @NamedQuery(name = "getStateByUuid", query = "SELECT s from StateEntity s where s.uuid = :uuid"),
+        @NamedQuery(name = "getAllStates",query = "SELECT s from StateEntity s"),
+})
 public class StateEntity {
 
   @Id
@@ -27,6 +32,10 @@ public class StateEntity {
     this.stateName = stateName;
     return;
   }
+
+public StateEntity(){
+
+}
 
 
   public Integer getId() {

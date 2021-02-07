@@ -158,4 +158,34 @@ public class AddressController {
     }
 
 
+    /*  The method handles States request.It produces response in StatesListResponse and returns UUID & stateName .If error Return error code and error Message.
+     */
+    @CrossOrigin
+    @RequestMapping(method = RequestMethod.GET,path = "/states",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<StatesListResponse> getAllStates(){
+
+        //Calls getAllStates method in addressService and returns list of stateEntity.
+        List<StateEntity> stateEntities = addressService.getAllStates();
+
+        if(!stateEntities.isEmpty()) {//Checking if StateEntities is empty.
+            //Creates List of StateList using Model StateList.
+            List<StatesList> statesLists = new LinkedList<>();
+            //looping in to get details of all the the stateEntity & then create a stateList and add UUID of state and stateName and add the newly created StateList to the list of StateList.
+            stateEntities.forEach(stateEntity -> {
+                StatesList statesList = new StatesList()
+                        .id(UUID.fromString(stateEntity.getUuid()))
+                        .stateName(stateEntity.getStateName());
+                statesLists.add(statesList);
+            });
+
+            //Creating StatesListResponse & adding list of stateLists
+            StatesListResponse statesListResponse = new StatesListResponse().states(statesLists);
+            return new ResponseEntity<StatesListResponse>(statesListResponse, HttpStatus.OK);
+        }else
+            //Return empty set if stateEntities is empty.
+            return new ResponseEntity<StatesListResponse>(new StatesListResponse(),HttpStatus.OK);
+    }
+
+
+
 }
