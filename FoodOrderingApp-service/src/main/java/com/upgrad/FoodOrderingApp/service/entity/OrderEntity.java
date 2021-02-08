@@ -61,21 +61,21 @@ public class OrderEntity {
   @NotNull
   private RestaurantEntity  restaurantId;
 
-//  public OrdersEntity(){
-//  }
-//
-//  public OrdersEntity(String uuid, Double bill, CouponEntity couponId, Double discount, Timestamp date, PaymentEntity paymentId, CustomerEntity customerId, AddressEntity addressId, RestaurantEntity restaurantId) {
-//    this.uuid = uuid;
-//    this.bill = bill;
-//    this.couponId = couponId;
-//    this.discount = discount;
-//    this.date = date;
-//    this.paymentId = paymentId;
-//    this.customerId = customerId;
-//    this.addressId = addressId;
-//    this.restaurantId = restaurantId;
-//
-//  }
+  public OrderEntity(){
+    }
+
+  public OrderEntity(String uuid, Double bill, CouponEntity couponId, Double discount, Date date, PaymentEntity paymentId, CustomerEntity customerId, AddressEntity addressId, RestaurantEntity restaurantId) {
+    this.uuid = uuid;
+    this.bill = bill;
+    this.couponId = couponId;
+    this.discount = discount;
+    this.date = date;
+    this.paymentId = paymentId;
+    this.customerId = customerId;
+    this.addressId = addressId;
+    this.restaurantId = restaurantId;
+
+ }
 
 
   public Integer getId() {
