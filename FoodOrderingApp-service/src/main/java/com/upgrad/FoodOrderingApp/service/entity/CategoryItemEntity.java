@@ -3,6 +3,8 @@ package com.upgrad.FoodOrderingApp.service.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
+@SuppressWarnings("ALL")
 @Entity
 @Table(name = "category_item")
 @NamedQueries({

@@ -47,8 +47,8 @@ public class RestaurantController {
     & produces response in RestaurantListResponse and returns list of restaurant with details from the db. If error returns error code and error message.
     */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/restaurant",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantListResponse> getAllRestaurants(){
+    @RequestMapping(method = RequestMethod.GET, path = "/restaurant", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantListResponse> getAllRestaurants() {
 
         //Calls restaurantsByRating method of restaurantService to get the list of restaurant entity.
         List<RestaurantEntity> restaurantEntities = restaurantService.restaurantsByRating();
@@ -62,9 +62,9 @@ public class RestaurantController {
             String categories = new String();
             //To concat the category names.
             ListIterator<CategoryEntity> listIterator = categoryEntities.listIterator();
-            while (listIterator.hasNext()){
-                categories =  categories + listIterator.next().getCategoryName() ;
-                if(listIterator.hasNext()){
+            while (listIterator.hasNext()) {
+                categories = categories + listIterator.next().getCategoryName();
+                if (listIterator.hasNext()) {
                     categories = categories + ", ";
                 }
             }
@@ -109,8 +109,8 @@ public class RestaurantController {
        & produces response in RestaurantListResponse and returns list of restaurant with details from the db. If error returns error code and error message.
        */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/restaurant/name/{restaurant_name}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantListResponse> getRestaurantByName (@PathVariable(value = "restaurant_name") final String restaurantName)throws RestaurantNotFoundException {
+    @RequestMapping(method = RequestMethod.GET, path = "/restaurant/name/{restaurant_name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantListResponse> getRestaurantByName(@PathVariable(value = "restaurant_name") final String restaurantName) throws RestaurantNotFoundException {
 
         //Calls restaurantsByName method of restaurantService to get the list of restaurant entity.
         List<RestaurantEntity> restaurantEntities = restaurantService.restaurantsByName(restaurantName);
@@ -166,8 +166,8 @@ public class RestaurantController {
             //Creating the RestaurantListResponse by adding the list of RestaurantList
             RestaurantListResponse restaurantListResponse = new RestaurantListResponse().restaurants(restaurantLists);
             return new ResponseEntity<RestaurantListResponse>(restaurantListResponse, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<RestaurantListResponse>(new RestaurantListResponse(),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<RestaurantListResponse>(new RestaurantListResponse(), HttpStatus.OK);
         }
 
     }
@@ -177,8 +177,8 @@ public class RestaurantController {
   & produces response in RestaurantListResponse and returns list of restaurant with details from the db. If error returns error code and error message.
   */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/restaurant/category/{category_id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantListResponse> getRestaurantByCategoryId(@PathVariable(value = "category_id")String categoryId) throws CategoryNotFoundException {
+    @RequestMapping(method = RequestMethod.GET, path = "/restaurant/category/{category_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantListResponse> getRestaurantByCategoryId(@PathVariable(value = "category_id") String categoryId) throws CategoryNotFoundException {
 
         //Calls restaurantByCategory method of restaurantService to get the list of restaurant entity.
         List<RestaurantEntity> restaurantEntities = restaurantService.restaurantByCategory(categoryId);
@@ -240,8 +240,8 @@ public class RestaurantController {
   & produces response in RestaurantDetailsResponse and returns details of restaurant from the db. If error returns error code and error message.
   */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/restaurant/{restaurant_id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantDetailsResponse>getRestaurantByRestaurantId(@PathVariable(value = "restaurant_id") final String restaurantUuid)throws RestaurantNotFoundException{
+    @RequestMapping(method = RequestMethod.GET, path = "/restaurant/{restaurant_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantDetailsResponse> getRestaurantByRestaurantId(@PathVariable(value = "restaurant_id") final String restaurantUuid) throws RestaurantNotFoundException {
 
         //Calls restaurantByUUID method of restaurantService to get the restaurant entity.
         RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantUuid);
@@ -251,10 +251,10 @@ public class RestaurantController {
 
         //Creating category Lists  for the response
         List<CategoryList> categoryLists = new LinkedList<>();
-        for (CategoryEntity categoryEntity:categoryEntities){  //Looping for each CategoryEntity in categoryEntities
+        for (CategoryEntity categoryEntity : categoryEntities) {  //Looping for each CategoryEntity in categoryEntities
 
             //Calls getItemsByCategoryAndRestaurant of itemService to get list of itemEntities.
-            List<ItemEntity> itemEntities = itemService.getItemsByCategoryAndRestaurant(restaurantUuid ,categoryEntity.getUuid());
+            List<ItemEntity> itemEntities = itemService.getItemsByCategoryAndRestaurant(restaurantUuid, categoryEntity.getUuid());
             //Creating Item List for the CategoryList.
             List<ItemList> itemLists = new LinkedList<>();
             itemEntities.forEach(itemEntity -> {
@@ -310,15 +310,15 @@ public class RestaurantController {
                 .photoURL(restaurantEntity.getPhotoUrl())
                 .categories(categoryLists);
 
-        return new ResponseEntity<RestaurantDetailsResponse>(restaurantDetailsResponse,HttpStatus.OK);
+        return new ResponseEntity<RestaurantDetailsResponse>(restaurantDetailsResponse, HttpStatus.OK);
     }
 
     /* The method handles update Restaurant Details. It takes restaurant_id as the path variable  and authorization in header and also customer rating.
        & produces response in RestaurantUpdatedResponse and returns UUID of Updated restaurant from the db and successful message. If error returns error code and error message.
        */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.PUT,path = "/restaurant/{restaurant_id}",params = "customer_rating",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RestaurantUpdatedResponse> updateRestaurantDetails(@RequestHeader ("authorization")final String authorization,@PathVariable(value = "restaurant_id")final String restaurantUuid,@RequestParam(value = "customer_rating")final Double customerRating) throws AuthorizationFailedException, RestaurantNotFoundException, InvalidRatingException {
+    @RequestMapping(method = RequestMethod.PUT, path = "/restaurant/{restaurant_id}", params = "customer_rating", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RestaurantUpdatedResponse> updateRestaurantDetails(@RequestHeader("authorization") final String authorization, @PathVariable(value = "restaurant_id") final String restaurantUuid, @RequestParam(value = "customer_rating") final Double customerRating) throws AuthorizationFailedException, RestaurantNotFoundException, InvalidRatingException {
 
         //Access the accessToken from the request Header
         final String accessToken = authorization.split("Bearer ")[1];
@@ -330,14 +330,14 @@ public class RestaurantController {
         RestaurantEntity restaurantEntity = restaurantService.restaurantByUUID(restaurantUuid);
 
         //Calls updateRestaurantRating and passes restaurantentity found and customer rating and return the updated entity.
-        RestaurantEntity updatedRestaurantEntity = restaurantService.updateRestaurantRating(restaurantEntity,customerRating);
+        RestaurantEntity updatedRestaurantEntity = restaurantService.updateRestaurantRating(restaurantEntity, customerRating);
 
         //Creating RestaurantUpdatedResponse containing the UUID of the updated Restaurant and the success message.
         RestaurantUpdatedResponse restaurantUpdatedResponse = new RestaurantUpdatedResponse()
                 .id(UUID.fromString(restaurantUuid))
                 .status("RESTAURANT RATING UPDATED SUCCESSFULLY");
 
-        return new ResponseEntity<RestaurantUpdatedResponse>(restaurantUpdatedResponse,HttpStatus.OK);
+        return new ResponseEntity<RestaurantUpdatedResponse>(restaurantUpdatedResponse, HttpStatus.OK);
     }
 
 }

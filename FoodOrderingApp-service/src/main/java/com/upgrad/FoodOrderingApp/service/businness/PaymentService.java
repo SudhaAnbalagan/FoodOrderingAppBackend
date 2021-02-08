@@ -13,25 +13,24 @@ import java.util.List;
 public class PaymentService {
 
     @Autowired
-     private PaymentDao paymentDao;
+    private PaymentDao paymentDao;
 
     /*This method retrieve all payment method
      * */
     public List<PaymentEntity> getAllPaymentMethods() throws PaymentMethodNotFoundException {
         List<PaymentEntity> paymentEntity = paymentDao.getAllPaymentMethods();
-        if(paymentEntity == null){
-            throw new PaymentMethodNotFoundException("PNF-001","No payment method found");
+        if (paymentEntity == null) {
+            throw new PaymentMethodNotFoundException("PNF-001", "No payment method found");
         }
         return paymentEntity;
     }
 
 
-
-    public PaymentEntity getPaymentByUUID(String uuid) throws  PaymentMethodNotFoundException{
+    public PaymentEntity getPaymentByUUID(String uuid) throws PaymentMethodNotFoundException {
 
         PaymentEntity paymentEntity = paymentDao.getPaymentByUUID(uuid);
-        if(paymentEntity == null){
-            throw new PaymentMethodNotFoundException("PNF-002","No payment method found by this id");
+        if (paymentEntity == null) {
+            throw new PaymentMethodNotFoundException("PNF-002", "No payment method found by this id");
         }
         return paymentEntity;
     }

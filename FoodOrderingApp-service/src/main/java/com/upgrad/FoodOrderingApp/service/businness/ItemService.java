@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ItemService {
 
-  @Autowired
+    @Autowired
     private ItemDao itemDao;
 
     @Autowired
@@ -49,7 +49,7 @@ public class ItemService {
 
         restaurantItemEntities.forEach(restaurantItemEntity -> {
             categoryItemEntities.forEach(categoryItemEntity -> {
-                if(restaurantItemEntity.getItemId().equals(categoryItemEntity.getItemId())){
+                if (restaurantItemEntity.getItemId().equals(categoryItemEntity.getItemId())) {
                     itemEntities.add(restaurantItemEntity.getItemId());
                 }
             });
@@ -65,8 +65,8 @@ public class ItemService {
 
     public ItemEntity getItemByUUID(String itemUuid) throws ItemNotFoundException {
         ItemEntity itemEntity = itemDao.getItemsByUuid(itemUuid);
-        if(itemEntity == null){
-            throw new ItemNotFoundException("INF-003","No item by this id exist");
+        if (itemEntity == null) {
+            throw new ItemNotFoundException("INF-003", "No item by this id exist");
         }
         return itemEntity;
     }

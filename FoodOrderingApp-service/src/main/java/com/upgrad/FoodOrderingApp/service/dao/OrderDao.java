@@ -16,12 +16,13 @@ public class OrderDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     //To get all the order corresponding to the address
     public List<OrderEntity> getOrdersByAddress(AddressEntity addressEntity) {
-        try{
-            List<OrderEntity> ordersEntities = entityManager.createNamedQuery("getOrdersByAddress",OrderEntity.class).setParameter("address",addressEntity).getResultList();
+        try {
+            List<OrderEntity> ordersEntities = entityManager.createNamedQuery("getOrdersByAddress", OrderEntity.class).setParameter("address", addressEntity).getResultList();
             return ordersEntities;
-        }catch (NoResultException nre) {
+        } catch (NoResultException nre) {
             return null;
         }
     }
@@ -36,10 +37,10 @@ public class OrderDao {
 
     /* To get List of order from the db, corresponding to a customer
      * */
-    public List<OrderEntity>getOrdersByCustomers(CustomerEntity customerEntity){
+    public List<OrderEntity> getOrdersByCustomers(CustomerEntity customerEntity) {
         try {
-            return entityManager.createNamedQuery("getOrdersByCustomers", OrderEntity.class).setParameter("customer",customerEntity).getResultList();
-        }catch (NoResultException e){
+            return entityManager.createNamedQuery("getOrdersByCustomers", OrderEntity.class).setParameter("customer", customerEntity).getResultList();
+        } catch (NoResultException e) {
             return null;
         }
 

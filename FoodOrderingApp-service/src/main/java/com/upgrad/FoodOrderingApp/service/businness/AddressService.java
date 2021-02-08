@@ -36,14 +36,14 @@ public class AddressService {
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public AddressEntity saveAddress(AddressEntity addressEntity, StateEntity stateEntity)throws SaveAddressException {
+    public AddressEntity saveAddress(AddressEntity addressEntity, StateEntity stateEntity) throws SaveAddressException {
         //Checking if any field is empty in the address entity.
-        if (addressEntity.getCity() == null || addressEntity.getFlatBuilNumber() == null || addressEntity.getPincode() == null || addressEntity.getLocality() == null){
-            throw new SaveAddressException("SAR-001","No field can be empty");
+        if (addressEntity.getCity() == null || addressEntity.getFlatBuilNumber() == null || addressEntity.getPincode() == null || addressEntity.getLocality() == null) {
+            throw new SaveAddressException("SAR-001", "No field can be empty");
         }
 
-        if(isPincodeValid(addressEntity.getPincode())){
-            throw new SaveAddressException("SAR-002","Invalid pincode");
+        if (isPincodeValid(addressEntity.getPincode())) {
+            throw new SaveAddressException("SAR-002", "Invalid pincode");
         }
 
         //Setting state to the address
@@ -56,17 +56,17 @@ public class AddressService {
         return savedAddress;
     }
 
-    public StateEntity getStateByUUID (String uuid)throws AddressNotFoundException {
+    public StateEntity getStateByUUID(String uuid) throws AddressNotFoundException {
         //Calls getStateByUuid od StateDao to get all the State details.
         StateEntity stateEntity = stateDao.getStateByUuid(uuid);
-        if(stateEntity == null) {//Checking if its null to return error message.
+        if (stateEntity == null) {//Checking if its null to return error message.
             throw new AddressNotFoundException("ANF-002", "No state by this id");
         }
-        return  stateEntity;
+        return stateEntity;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public CustomerAddressEntity saveCustomerAddressEntity(CustomerEntity customerEntity,AddressEntity addressEntity){
+    public CustomerAddressEntity saveCustomerAddressEntity(CustomerEntity customerEntity, AddressEntity addressEntity) {
 
         //Creating new CustomerAddressEntity and setting the data.
         CustomerAddressEntity customerAddressEntity = new CustomerAddressEntity();
@@ -85,8 +85,8 @@ public class AddressService {
         List<AddressEntity> addressEntities = new LinkedList<>();
 
         //Calls Method of customerAddressDao,getAllCustomerAddressByCustomer and returns AddressList.
-        List<CustomerAddressEntity> customerAddressEntities  = customerAddressDao.getAllCustomerAddressByCustomer(customerEntity);
-        if(customerAddressEntities != null) { //Checking if CustomerAddressEntity is null else extracting address and adding to the addressEntites list.
+        List<CustomerAddressEntity> customerAddressEntities = customerAddressDao.getAllCustomerAddressByCustomer(customerEntity);
+        if (customerAddressEntities != null) { //Checking if CustomerAddressEntity is null else extracting address and adding to the addressEntites list.
             customerAddressEntities.forEach(customerAddressEntity -> {
                 addressEntities.add(customerAddressEntity.getAddressId());
             });
@@ -96,25 +96,25 @@ public class AddressService {
 
     }
 
-    public AddressEntity getAddressByUUID(String addressUuid,CustomerEntity customerEntity)throws AuthorizationFailedException,AddressNotFoundException{
-        if(addressUuid == null){//Check for Address UUID not being empty
-            throw new AddressNotFoundException("ANF-005","Address id can not be empty");
+    public AddressEntity getAddressByUUID(String addressUuid, CustomerEntity customerEntity) throws AuthorizationFailedException, AddressNotFoundException {
+        if (addressUuid == null) {//Check for Address UUID not being empty
+            throw new AddressNotFoundException("ANF-005", "Address id can not be empty");
         }
 
         //Calls getAddressByUuid method of addressDao to get addressEntity
         AddressEntity addressEntity = addressDao.getAddressByUuid(addressUuid);
-        if (addressEntity == null){//Checking if null throws corresponding exception.
-            throw new AddressNotFoundException("ANF-003","No address by this id");
+        if (addressEntity == null) {//Checking if null throws corresponding exception.
+            throw new AddressNotFoundException("ANF-003", "No address by this id");
         }
 
         //Getting CustomerAddressEntity by address
         CustomerAddressEntity customerAddressEntity = customerAddressDao.getCustomerAddressByAddress(addressEntity);
 
         //Checking if the address belong to the customer requested.If no throws corresponding exception.
-        if(customerAddressEntity.getCustomerId().getUuid() == customerEntity.getUuid()){
+        if (customerAddressEntity.getCustomerId().getUuid() == customerEntity.getUuid()) {
             return addressEntity;
-        }else{
-            throw new AuthorizationFailedException("ATHR-004","You are not authorized to view/update/delete any one else's address");
+        } else {
+            throw new AuthorizationFailedException("ATHR-004", "You are not authorized to view/update/delete any one else's address");
         }
 
     }
@@ -128,16 +128,16 @@ public class AddressService {
         //Calls getOrdersByAddress of orderDao to orders with corresponding address.
         List<OrderEntity> ordersEntities = orderDao.getOrdersByAddress(addressEntity);
 
-        if(ordersEntities == null||ordersEntities.isEmpty()) { //Checking if no orders are present with this address.
+        if (ordersEntities == null || ordersEntities.isEmpty()) { //Checking if no orders are present with this address.
             //Calls deleteAddress of addressDao to delete the corresponding address.
             AddressEntity deletedAddressEntity = addressDao.deleteAddress(addressEntity);
             return deletedAddressEntity;
-        }else{
+        } else {
             //Updating the active status
             addressEntity.setActive(0);
 
             //Calls updateAddressActiveStatus method of addressDao to update address active status.
-            AddressEntity updatedAddressActiveStatus =  addressDao.updateAddressActiveStatus(addressEntity);
+            AddressEntity updatedAddressActiveStatus = addressDao.updateAddressActiveStatus(addressEntity);
             return updatedAddressActiveStatus;
         }
     }
@@ -145,25 +145,19 @@ public class AddressService {
 
     /*This method is to getAllStates in DB.
      */
-    public List<StateEntity> getAllStates(){
+    public List<StateEntity> getAllStates() {
         //Calls getAllStates of stateDao to get all States.
         List<StateEntity> stateEntities = stateDao.getAllStates();
         return stateEntities;
     }
 
 
-
-
-
-
-
     //To Validate the Pincode
-    public boolean isPincodeValid(String pincode){
+    public boolean isPincodeValid(String pincode) {
         Pattern p = Pattern.compile("\\d{6}\\b");
         Matcher m = p.matcher(pincode);
         return (m.find() && m.group().equals(pincode));
     }
-
 
 
 }

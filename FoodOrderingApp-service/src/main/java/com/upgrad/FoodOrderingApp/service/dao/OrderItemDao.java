@@ -29,7 +29,7 @@ public class OrderItemDao {
 
     /* To save order items in  the DB
      * */
-    public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity){
+    public OrderItemEntity saveOrderItem(OrderItemEntity orderItemEntity) {
         entityManager.persist(orderItemEntity);
         return orderItemEntity;
     }

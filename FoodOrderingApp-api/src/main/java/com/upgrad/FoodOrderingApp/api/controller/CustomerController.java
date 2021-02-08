@@ -127,7 +127,7 @@ public class CustomerController {
             throws AuthorizationFailedException {
 
         String[] authParts = authorization.split("Bearer ");
-        final String accessToken =  authParts[1];
+        final String accessToken = authParts[1];
 
         CustomerAuthEntity createdCustomerAuthEntity = customerService.logout(accessToken);
 
@@ -156,7 +156,7 @@ public class CustomerController {
         }
 
         String[] authParts = authorization.split("Bearer ");
-        final String accessToken =  authParts[1];
+        final String accessToken = authParts[1];
 
         CustomerEntity customerEntity = customerService.getCustomer(accessToken);
         customerEntity.setFirstname(updateCustomerRequest.getFirstName());
@@ -192,7 +192,7 @@ public class CustomerController {
                 && newPassword != null
                 && !newPassword.isEmpty()) {
             String[] authParts = authorization.split("Bearer ");
-            final String accessToken =  authParts[1];
+            final String accessToken = authParts[1];
             CustomerEntity customerEntity = customerService.getCustomer(accessToken);
 
             CustomerEntity updatedCustomerEntity =
@@ -208,11 +208,6 @@ public class CustomerController {
             throw new UpdateCustomerException("UCR-003", "No field should be empty");
         }
     }
-
-
-
-
-
 
 
 }

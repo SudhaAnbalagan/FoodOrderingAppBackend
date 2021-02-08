@@ -43,8 +43,6 @@ public class OrderController {
     private ItemService itemService;
 
 
-
-
     /* The method handles get Coupon By CouponName request.
      It takes authorization from the header and coupon name as the path variable.
     Produces response in CouponDetailsResponse and returns UUID,Coupon Name and Percentage of coupon present in the DB
@@ -74,7 +72,7 @@ public class OrderController {
     /* The method handles past order request of customer.It takes authorization from the header
    & produces response in CustomerOrderResponse and returns details of all the past order arranged in date wise and if error returns error code and error Message.
    */
-   @CrossOrigin
+    @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomerOrderResponse> getPastOrderOfUser(@RequestHeader(value = "authorization") final String authorization) throws AuthorizationFailedException {
 
@@ -179,7 +177,7 @@ public class OrderController {
         String[] authParts = authorization.split("Bearer ");
         final String accessToken = authParts[1];
 
-        OrderEntity orderEntity= new OrderEntity();
+        OrderEntity orderEntity = new OrderEntity();
 
         CustomerEntity customerEntity = customerService.getCustomer(accessToken);
 
@@ -202,15 +200,14 @@ public class OrderController {
         orderEntity.setAddressId(addressEntity);
 
 
-
-        OrderEntity updatedOrderEntity= orderService.saveOrder(orderEntity);
+        OrderEntity updatedOrderEntity = orderService.saveOrder(orderEntity);
 
         List<ItemQuantity> itemQuantities = saveOrderRequest.getItemQuantities();
-        for(ItemQuantity i : itemQuantities){
+        for (ItemQuantity i : itemQuantities) {
 
             OrderItemEntity orderItemEntity = new OrderItemEntity();
 
-            ItemEntity itemEntity =  itemService.getItemByUUID(i.getItemId().toString());
+            ItemEntity itemEntity = itemService.getItemByUUID(i.getItemId().toString());
 
             orderItemEntity.setItemId(itemEntity);
             orderItemEntity.setOrderId(orderEntity);
@@ -222,10 +219,7 @@ public class OrderController {
         }
 
         SaveOrderResponse response = new SaveOrderResponse().id(updatedOrderEntity.getUuid()).status("ORDER SUCCESSFULLY PLACED");
-        return new ResponseEntity<SaveOrderResponse>(response,HttpStatus.CREATED);
-
-
-
+        return new ResponseEntity<SaveOrderResponse>(response, HttpStatus.CREATED);
 
 
     }

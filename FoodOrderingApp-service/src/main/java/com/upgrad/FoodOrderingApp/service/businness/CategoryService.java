@@ -18,7 +18,7 @@ public class CategoryService {
 
 
     @Autowired
-     private RestaurantCategoryDao restaurantCategoryDao; //Handles all data related to the RestaurantCategoryEntity
+    private RestaurantCategoryDao restaurantCategoryDao; //Handles all data related to the RestaurantCategoryEntity
 
 
     @Autowired
@@ -27,7 +27,7 @@ public class CategoryService {
     @Autowired
     private CategoryDao categoryDao;
 
-    public List<CategoryEntity> getCategoriesByRestaurant(String restaurantUuid){
+    public List<CategoryEntity> getCategoriesByRestaurant(String restaurantUuid) {
 
         //Calls getRestaurantByUuid of restaurantDao to get RestaurantEntity
         RestaurantEntity restaurantEntity = restaurantDao.restaurantByUUID(restaurantUuid);
@@ -56,15 +56,15 @@ public class CategoryService {
    If error throws exception with error code and error message.
    */
     public CategoryEntity getCategoryById(String categoryUuid) throws CategoryNotFoundException {
-        if(categoryUuid == null || categoryUuid == ""){ //Checking for categoryUuid to be null or empty to throw exception.
-            throw new CategoryNotFoundException("CNF-001","Category id field should not be empty");
+        if (categoryUuid == null || categoryUuid == "") { //Checking for categoryUuid to be null or empty to throw exception.
+            throw new CategoryNotFoundException("CNF-001", "Category id field should not be empty");
         }
 
         //Calls getCategoryByUuid of categoryDao to get CategoryEntity
         CategoryEntity categoryEntity = categoryDao.getCategoryByUuid(categoryUuid);
 
-        if(categoryEntity == null){ //Checking for categoryEntity to be null or empty to throw exception.
-            throw new CategoryNotFoundException("CNF-002","No category by this id");
+        if (categoryEntity == null) { //Checking for categoryEntity to be null or empty to throw exception.
+            throw new CategoryNotFoundException("CNF-002", "No category by this id");
         }
 
         return categoryEntity;

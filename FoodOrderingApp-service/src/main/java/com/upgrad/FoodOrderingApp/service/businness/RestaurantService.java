@@ -102,7 +102,7 @@ If error throws exception with error code and error message.
 If error throws exception with error code and error message.
 */
     @Transactional(propagation = Propagation.REQUIRED)
-    public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double customerRating) throws AuthorizationFailedException, InvalidRatingException, RestaurantNotFoundException  {
+    public RestaurantEntity updateRestaurantRating(RestaurantEntity restaurantEntity, Double customerRating) throws AuthorizationFailedException, InvalidRatingException, RestaurantNotFoundException {
         if (!isValidCustomerRating(customerRating.toString())) { //Checking for the rating to be valid
             throw new InvalidRatingException("IRE-001", "Restaurant should be in the range of 1 to 5");
         }

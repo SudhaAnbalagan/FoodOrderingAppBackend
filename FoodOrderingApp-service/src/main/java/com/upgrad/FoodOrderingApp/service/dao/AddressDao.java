@@ -15,17 +15,17 @@ public class AddressDao {
     private EntityManager entityManager;
 
     //To save the address
-    public AddressEntity saveAddress(AddressEntity addressEntity){
+    public AddressEntity saveAddress(AddressEntity addressEntity) {
         entityManager.persist(addressEntity);
         return addressEntity;
     }
 
     //To get address by UUID if no results null is returned.
-    public AddressEntity getAddressByUuid(String uuid){
-        try{
-            AddressEntity addressEntity = entityManager.createNamedQuery("getAddressByUuid",AddressEntity.class).setParameter("uuid",uuid).getSingleResult();
+    public AddressEntity getAddressByUuid(String uuid) {
+        try {
+            AddressEntity addressEntity = entityManager.createNamedQuery("getAddressByUuid", AddressEntity.class).setParameter("uuid", uuid).getSingleResult();
             return addressEntity;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }
@@ -41,8 +41,6 @@ public class AddressDao {
         entityManager.merge(addressEntity);
         return addressEntity;
     }
-
-
 
 
 }

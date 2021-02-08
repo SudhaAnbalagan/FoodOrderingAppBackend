@@ -19,9 +19,9 @@ public class RestaurantItemDao {
     //To get the list of RestaurantItemEntity using Restaurant entity if no results then returns null.
     public List<RestaurantItemEntity> getItemsByRestaurant(RestaurantEntity restaurantEntity) {
         try {
-            List<RestaurantItemEntity> restaurantItemEntities = entityManager.createNamedQuery("getItemsByRestaurant",RestaurantItemEntity.class).setParameter("restaurant",restaurantEntity).getResultList();
+            List<RestaurantItemEntity> restaurantItemEntities = entityManager.createNamedQuery("getItemsByRestaurant", RestaurantItemEntity.class).setParameter("restaurant", restaurantEntity).getResultList();
             return restaurantItemEntities;
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return null;
         }
     }

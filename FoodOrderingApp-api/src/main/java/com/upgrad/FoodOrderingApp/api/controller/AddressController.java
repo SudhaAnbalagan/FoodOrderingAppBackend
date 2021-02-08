@@ -65,10 +65,10 @@ public class AddressController {
         StateEntity stateEntity = addressService.getStateByUUID(saveAddressRequest.getStateUuid());
 
         //Calls saveAddress method to save the new addressEntity Created.
-        AddressEntity savedAddress = addressService.saveAddress(addressEntity,stateEntity);
+        AddressEntity savedAddress = addressService.saveAddress(addressEntity, stateEntity);
 
         //Calls saveCustomerAddressEntity method to save to save foreign Keys of the newly created address and the Customer.
-        CustomerAddressEntity customerAddressEntity = addressService.saveCustomerAddressEntity(customerEntity,savedAddress);
+        CustomerAddressEntity customerAddressEntity = addressService.saveCustomerAddressEntity(customerEntity, savedAddress);
 
         //Creating SaveAddressResponse response
         SaveAddressResponse saveAddressResponse = new SaveAddressResponse()
@@ -79,7 +79,7 @@ public class AddressController {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public CustomerAddressEntity saveCustomerAddressEntity(CustomerEntity customerEntity,AddressEntity addressEntity){
+    public CustomerAddressEntity saveCustomerAddressEntity(CustomerEntity customerEntity, AddressEntity addressEntity) {
 
         //Creating new CustomerAddressEntity and setting the data.
         CustomerAddressEntity customerAddressEntity = new CustomerAddressEntity();
@@ -93,8 +93,8 @@ public class AddressController {
     }
 
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/address/customer",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<AddressListResponse> getAllSavedAddress(@RequestHeader("authorization")final String authorization) throws AuthorizationFailedException{
+    @RequestMapping(method = RequestMethod.GET, path = "/address/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<AddressListResponse> getAllSavedAddress(@RequestHeader("authorization") final String authorization) throws AuthorizationFailedException {
 
         //Access the accessToken from the request Header
         String accessToken = authorization.split("Bearer ")[1];
@@ -125,15 +125,15 @@ public class AddressController {
 
         //Creating the AddressListResponse by adding the addressLists.
         AddressListResponse addressListResponse = new AddressListResponse().addresses(addressLists);
-        return new ResponseEntity<AddressListResponse>(addressListResponse,HttpStatus.OK);
+        return new ResponseEntity<AddressListResponse>(addressListResponse, HttpStatus.OK);
     }
 
     /*  The method handles delete  Address  request.It takes the authorization and path variables address UUID
 & produces response in DeleteAddressResponse and returns UUID of deleted address and Successfull message .If error Return error code and error Message.
 */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.DELETE,path = "/address/{address_id}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(@RequestHeader ("authorization") final String authorization,@PathVariable(value = "address_id")final String addressUuid)throws AuthorizationFailedException,AddressNotFoundException{
+    @RequestMapping(method = RequestMethod.DELETE, path = "/address/{address_id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(@RequestHeader("authorization") final String authorization, @PathVariable(value = "address_id") final String addressUuid) throws AuthorizationFailedException, AddressNotFoundException {
 
         //Access the accessToken from the request Header
         String accessToken = authorization.split("Bearer ")[1];
@@ -142,7 +142,7 @@ public class AddressController {
         CustomerEntity customerEntity = customerService.getCustomer(accessToken);
 
         //Calls getAddressByUUID method of addressService to get the address by uuid
-        AddressEntity addressEntity = addressService.getAddressByUUID(addressUuid,customerEntity);
+        AddressEntity addressEntity = addressService.getAddressByUUID(addressUuid, customerEntity);
 
         //Calls deleteAddress method of addressService to delete the address from DB
         AddressEntity deletedAddressEntity = addressService.deleteAddress(addressEntity);
@@ -152,7 +152,7 @@ public class AddressController {
                 .id(UUID.fromString(deletedAddressEntity.getUuid()))
                 .status("ADDRESS DELETED SUCCESSFULLY");
 
-        return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse,HttpStatus.OK);
+        return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse, HttpStatus.OK);
 
 
     }
@@ -161,13 +161,13 @@ public class AddressController {
     /*  The method handles States request.It produces response in StatesListResponse and returns UUID & stateName .If error Return error code and error Message.
      */
     @CrossOrigin
-    @RequestMapping(method = RequestMethod.GET,path = "/states",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<StatesListResponse> getAllStates(){
+    @RequestMapping(method = RequestMethod.GET, path = "/states", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<StatesListResponse> getAllStates() {
 
         //Calls getAllStates method in addressService and returns list of stateEntity.
         List<StateEntity> stateEntities = addressService.getAllStates();
 
-        if(!stateEntities.isEmpty()) {//Checking if StateEntities is empty.
+        if (!stateEntities.isEmpty()) {//Checking if StateEntities is empty.
             //Creates List of StateList using Model StateList.
             List<StatesList> statesLists = new LinkedList<>();
             //looping in to get details of all the the stateEntity & then create a stateList and add UUID of state and stateName and add the newly created StateList to the list of StateList.
@@ -181,11 +181,10 @@ public class AddressController {
             //Creating StatesListResponse & adding list of stateLists
             StatesListResponse statesListResponse = new StatesListResponse().states(statesLists);
             return new ResponseEntity<StatesListResponse>(statesListResponse, HttpStatus.OK);
-        }else
+        } else
             //Return empty set if stateEntities is empty.
-            return new ResponseEntity<StatesListResponse>(new StatesListResponse(),HttpStatus.OK);
+            return new ResponseEntity<StatesListResponse>(new StatesListResponse(), HttpStatus.OK);
     }
-
 
 
 }

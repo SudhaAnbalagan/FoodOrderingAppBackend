@@ -17,75 +17,74 @@ import javax.validation.constraints.NotNull;
 public class OrderItemEntity {
 
 
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "order_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
-  @NotNull
-  private OrderEntity orderId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
+    private OrderEntity orderId;
 
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "item_id")
-  @NotNull
-  private ItemEntity  itemId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id")
+    @NotNull
+    private ItemEntity itemId;
 
-  @Column(name = "quantity")
-  @NotNull
-  private Integer quantity;
+    @Column(name = "quantity")
+    @NotNull
+    private Integer quantity;
 
-  @Column(name = "price")
-  @NotNull
-  private Integer price;
-
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    @Column(name = "price")
+    @NotNull
+    private Integer price;
 
 
-  public OrderEntity getOrderId() {
-    return orderId;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setOrderId(OrderEntity orderId) {
-    this.orderId = orderId;
-  }
-
-
-  public ItemEntity  getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(ItemEntity  itemId) {
-    this.itemId = itemId;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
-  public Integer getQuantity() {
-    return quantity;
-  }
+    public OrderEntity getOrderId() {
+        return orderId;
+    }
 
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
-  }
+    public void setOrderId(OrderEntity orderId) {
+        this.orderId = orderId;
+    }
 
 
-  public Integer getPrice() {
-    return price;
-  }
+    public ItemEntity getItemId() {
+        return itemId;
+    }
 
-  public void setPrice(Integer price) {
-    this.price = price;
-  }
+    public void setItemId(ItemEntity itemId) {
+        this.itemId = itemId;
+    }
 
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
 
 }

@@ -37,10 +37,10 @@ public class CustomerService {
         /*Validation for required fields if any field other than lastname is empty then it throws
         SignUpRestrictedException exception*/
 
-        if(!customerEntity.getFirstname().isEmpty()
-           && !customerEntity.getEmail().isEmpty()
-           && !customerEntity.getContactNumber().isEmpty()
-           && !customerEntity.getPassword().isEmpty()){
+        if (!customerEntity.getFirstname().isEmpty()
+                && !customerEntity.getEmail().isEmpty()
+                && !customerEntity.getContactNumber().isEmpty()
+                && !customerEntity.getPassword().isEmpty()) {
 
             // if contactNumber is already registered throws exception with code SGR-001
             if (isContactNumberInUse(customerEntity.getContactNumber())) {
@@ -68,12 +68,10 @@ public class CustomerService {
             return customerDao.saveCustomer(customerEntity);
 
 
+        } else {
+            throw new SignUpRestrictedException(
+                    "SGR-005", "Except last name all fields should be filled");
         }
-
-    else {
-        throw new SignUpRestrictedException(
-                "SGR-005", "Except last name all fields should be filled");
-    }
 
     }
 
@@ -169,23 +167,6 @@ public class CustomerService {
             throw new UpdateCustomerException("UCR-001", "Weak password!");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //Common util methods to check validity of contact number, email and password etc..

@@ -12,9 +12,9 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 @Entity
-@Table(name = "item", schema = "public",catalog = "restaurantdb")
+@Table(name = "item", schema = "public", catalog = "restaurantdb")
 @NamedQueries(
-        {        @NamedQuery(name = "getItemsByUuid", query = "select i from ItemEntity i where i.uuid =:uuid"),
+        {@NamedQuery(name = "getItemsByUuid", query = "select i from ItemEntity i where i.uuid =:uuid"),
 
                 @NamedQuery(name = "getAllItems", query = "select i from ItemEntity i "),
                 @NamedQuery(name = "itemByItemId", query = "select i from ItemEntity i where i.id =:id"),
@@ -37,81 +37,81 @@ import java.util.List;
 
 public class ItemEntity implements Serializable {
 
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer  id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  @Column(name = "uuid")
-  @Size(max = 200)
-  @NotNull
-  private String uuid;
+    @Column(name = "uuid")
+    @Size(max = 200)
+    @NotNull
+    private String uuid;
 
-  @Column(name = "item_name")
-  @Size(max = 30)
-  @NotNull
-  private String itemName;
+    @Column(name = "item_name")
+    @Size(max = 30)
+    @NotNull
+    private String itemName;
 
-  @Column(name = "price")
-  @NotNull
-  private Integer  price;
+    @Column(name = "price")
+    @NotNull
+    private Integer price;
 
-  @Column(name = "type")
-  @Size(max = 10)
-  @NotNull
-  private ItemType type;
+    @Column(name = "type")
+    @Size(max = 10)
+    @NotNull
+    private ItemType type;
 
-  @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-  @JoinTable(
-          name = "category_item",
-          joinColumns = {@JoinColumn(name = "item_id")},
-          inverseJoinColumns = {@JoinColumn(name = "category_id")}
-  )
-  private List<CategoryEntity> category = new ArrayList<CategoryEntity>();
-
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "category_item",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
+    )
+    private List<CategoryEntity> category = new ArrayList<CategoryEntity>();
 
 
-  public String getUuid() {
-    return uuid;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
-  }
-
-
-  public String getItemName() {
-    return itemName;
-  }
-
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
-  public Integer getPrice() {
-    return price;
-  }
+    public String getUuid() {
+        return uuid;
+    }
 
-  public void setPrice(Integer price) {
-    this.price = price;
-  }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
 
-  public ItemType getType() {
-    return type;
-  }
+    public String getItemName() {
+        return itemName;
+    }
 
-  public void setType(ItemType type) {
-    this.type = type;
-  }
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+
+    public ItemType getType() {
+        return type;
+    }
+
+    public void setType(ItemType type) {
+        this.type = type;
+    }
 
 }
