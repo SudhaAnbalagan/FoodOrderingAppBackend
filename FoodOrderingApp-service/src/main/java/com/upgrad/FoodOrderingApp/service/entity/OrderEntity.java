@@ -10,10 +10,10 @@ import java.util.Date;
 @Entity
 @Table(name = "orders", schema = "public",catalog = "restaurantdb")
 @NamedQueries({
-        @NamedQuery(name = "getOrdersByCouponId", query = "SELECT x FROM OrderEntity x WHERE x.coupon = :couponId"),
+        @NamedQuery(name = "getOrdersByCouponId", query = "SELECT x FROM OrderEntity x WHERE x.couponId = :couponId"),
         @NamedQuery(name = "getAllOrders", query = "SELECT x FROM OrderEntity x"),
-        @NamedQuery(name = "getOrdersByCustomers", query = "SELECT o FROM OrderEntity o WHERE o.customer = :customer ORDER BY o.date DESC"),
-        @NamedQuery(name = "getOrdersByAddress", query = "SELECT x FROM OrderEntity x WHERE x.address = :address")
+        @NamedQuery(name = "getOrdersByCustomers", query = "SELECT o FROM OrderEntity o WHERE o.customerId = :customer ORDER BY o.date DESC"),
+        @NamedQuery(name = "getOrdersByAddress", query = "SELECT x FROM OrderEntity x WHERE x.addressId = :address")
 })
 public class OrderEntity {
 
