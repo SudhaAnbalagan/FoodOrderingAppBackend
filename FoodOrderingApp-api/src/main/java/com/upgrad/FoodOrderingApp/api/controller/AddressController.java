@@ -29,13 +29,15 @@ import java.util.UUID;
 @CrossOrigin
 @RestController
 public class AddressController {
-
+    //handles all the services related to address
     @Autowired
     private AddressService addressService;
 
+    //handles all the customer service
     @Autowired
     private CustomerService customerService;
 
+    //handles all the customer address
     @Autowired
     private CustomerAddressDao customerAddressDao;
 
