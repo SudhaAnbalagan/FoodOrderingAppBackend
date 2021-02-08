@@ -74,7 +74,7 @@ public class OrderController {
     /* The method handles past order request of customer.It takes authorization from the header
    & produces response in CustomerOrderResponse and returns details of all the past order arranged in date wise and if error returns error code and error Message.
    */
-  /*  @CrossOrigin
+   @CrossOrigin
     @RequestMapping(method = RequestMethod.GET, path = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<CustomerOrderResponse> getPastOrderOfUser(@RequestHeader(value = "authorization") final String authorization) throws AuthorizationFailedException {
 
@@ -166,7 +166,7 @@ public class OrderController {
         }
 
 
-    }*/
+    }
 
 
     /* The method handles save Order request.It takes authorization from the header and other details in SaveOrderRequest.
