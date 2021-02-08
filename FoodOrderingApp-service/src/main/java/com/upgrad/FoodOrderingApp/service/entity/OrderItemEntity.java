@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "order_item")
 @NamedQueries({
-        @NamedQuery(name = "orderItemsByOrder", query = "SELECT x FROM OrderItemEntity x WHERE x.order = :order  ORDER BY x.item ASC")
+        @NamedQuery(name = "orderItemsByOrder", query = "SELECT x FROM OrderItemEntity x WHERE x.orderId = :order  ORDER BY x.itemId ASC")
 
 })
 public class OrderItemEntity {
@@ -85,5 +85,7 @@ public class OrderItemEntity {
   public void setPrice(Integer price) {
     this.price = price;
   }
+
+
 
 }
